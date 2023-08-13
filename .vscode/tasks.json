@@ -1,0 +1,29 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "wasm-pack: build",
+            "type": "shell",
+            "command": "wasm-pack",
+            "args": ["build", "wasm", "--out-dir", "${workspaceFolder}/js/wasm", "--no-pack", "--target", "web"]
+        },
+        {
+            "label": "wasm-pack: build release",
+            "type": "shell",
+            "command": "wasm-pack",
+            "args": ["build", "wasm", "--out-dir", "${workspaceFolder}/js/wasm", "--no-pack", "--target", "web", "--release"]
+        },
+        {
+            "label": "wasm-pack: test",
+            "type": "shell",
+            "command": "wasm-pack",
+            "args": ["test", "--chrome", "--firefox", "--headless", "wasm"]
+        },
+        {
+            "label": "wasm-pack: dev",
+            "type": "shell",
+            "command": "wasm-pack",
+            "args": ["test", "--chrome", "--firefox", "wasm"]
+        }
+    ]
+}

@@ -1,0 +1,12 @@
+[workspace]
+members = ["core", "wasm"]
+
+[workspace.package]
+authors = ["Rostyslav Bohomaz <rostyslav.db@gmail.com>"]
+version = "0.1.0"
+edition = "2021"
+
+[workspace.dependencies]
+rand = "0.8.5"
+rand_xoshiro = "0.6.0"
+game-of-life-core = { path = "core" }
