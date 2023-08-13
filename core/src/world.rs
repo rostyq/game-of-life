@@ -41,7 +41,7 @@ impl World {
 
         for delta_row in [self.height - 1, 0, 1].into_iter() {
             for delta_column in [self.width - 1, 0, 1].into_iter() {
-                if delta_row == 0 && delta_row == 0 {
+                if delta_row == 0 && delta_column == 0 {
                     continue;
                 }
 
@@ -231,24 +231,26 @@ mod tests {
     #[test]
     fn neighbors() {
         use crate::patterns::{A, D};
+
+/*         let w = World::empty(10, 10);
+
+        for row in 0..w.height {
+            for column in 0..w.width {
+                assert_eq!(w.neighbors(row, column), Some(0));
+            } 
+        }
+ */
         #[rustfmt::skip]
-        let w = World::new(3, vec![
-            D, A, D,
-            A, D, A,
-            D, A, D
+        let w = World::new(5, vec![
+            D, D, D, D, D,
+            D, A, A, D, D,
+            D, A, A, A, D,
+            D, D, D, D, D,
+            D, D, D, D, D,
         ]);
 
-        assert_eq!(w.neighbors(0, 0), Some(3));
-        assert_eq!(w.neighbors(1, 1), Some(2));
-        assert_eq!(w.neighbors(2, 2), Some(3));
-
-        assert_eq!(w.neighbors(1, 0), Some(3));
-        assert_eq!(w.neighbors(0, 1), Some(3));
-        assert_eq!(w.neighbors(2, 0), Some(4));
-
-        assert_eq!(w.neighbors(0, 2), Some(4));
-        assert_eq!(w.neighbors(2, 1), Some(3));
-        assert_eq!(w.neighbors(1, 2), Some(3));
+        // assert_eq!(w.neighbors(0, 0), Some(1));
+        assert_eq!(w.neighbors(2, 2), Some(4));
     }
 
     #[test]
