@@ -103,6 +103,11 @@ impl World {
     }
 
     #[inline]
+    pub fn population(&self) -> u64 {
+        self.iter().fold(0u64, |count, state| count + *state)
+    }
+
+    #[inline]
     pub fn width(&self) -> u32 {
         self.width
     }
@@ -232,14 +237,14 @@ mod tests {
     fn neighbors() {
         use crate::patterns::{A, D};
 
-/*         let w = World::empty(10, 10);
+         let w = World::empty(10, 10);
 
         for row in 0..w.height {
             for column in 0..w.width {
                 assert_eq!(w.neighbors(row, column), Some(0));
             } 
         }
- */
+
         #[rustfmt::skip]
         let w = World::new(5, vec![
             D, D, D, D, D,
@@ -249,7 +254,6 @@ mod tests {
             D, D, D, D, D,
         ]);
 
-        // assert_eq!(w.neighbors(0, 0), Some(1));
         assert_eq!(w.neighbors(2, 2), Some(4));
     }
 
