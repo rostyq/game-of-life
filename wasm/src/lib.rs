@@ -2,7 +2,7 @@ use wasm_bindgen::prelude::*;
 
 use rand::SeedableRng;
 use rand_xoshiro::Xoshiro256StarStar;
-use game_of_life_core::World;
+use game_of_life_core::{World, patterns::glider};
 
 #[wasm_bindgen(js_name = World)]
 pub struct JsWorld(World);
@@ -28,6 +28,11 @@ impl JsWorld {
     }
 
     #[wasm_bindgen(getter)]
+    pub fn population(&self) -> u64 {
+        self.0.population()
+    }
+
+    #[wasm_bindgen(getter)]
     pub fn width(&self) -> u32 {
         self.0.width()
     }
@@ -42,7 +47,7 @@ impl JsWorld {
         self.0.size()
     }
 
-    #[wasm_bindgen(getter, js_name = "pointer")]
+    #[wasm_bindgen(getter, js_name = pointer)]
     pub fn as_ptr(&self) -> *const u8 {
         self.0.as_ptr().cast()
     }
@@ -50,5 +55,17 @@ impl JsWorld {
     #[wasm_bindgen]
     pub fn update(&mut self) {
         self.0.update();
+    }
+
+    #[wasm_bindgen(js_name = glider)]
+    pub fn set_glider(&mut self, row: u32, column: u32) {
+        self.0.put(row, column, glider());
+    }
+
+    #[wasm_bindgen]
+    pub fn toggle(&mut self, row: u32, column: u32) {
+        if let Some(state) = self.0.get_mut(row, column) {
+            state.swap();
+        }
     }
 }
