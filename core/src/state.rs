@@ -74,6 +74,15 @@ impl Add<State> for u8 {
     }
 }
 
+impl Add<State> for u64 {
+    type Output = u64;
+
+    #[inline]
+    fn add(self, rhs: State) -> Self::Output {
+        self + rhs as u64
+    }
+}
+
 impl AddAssign<State> for u8 {
     #[inline]
     fn add_assign(&mut self, rhs: State) {
