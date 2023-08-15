@@ -187,7 +187,7 @@ function _draw() {
 }
 
 function generateSeed() {
-  const array = new Float64Array([Math.random()]);
+  const array = crypto.getRandomValues(new Uint8Array(8));
   const view = new DataView(array.buffer);
   return view.getBigUint64(0);
 }
