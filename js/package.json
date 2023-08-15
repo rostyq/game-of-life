@@ -1,8 +1,17 @@
 {
   "name": "@rostyq/game-of-life",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
+  "files": ["dist"],
+  "main": "./dist/game-of-life.umd.cjs",
+  "module": "./dist/game-of-life.js",
+  "exports": {
+    ".": {
+      "import": "./dist/game-of-life.js",
+      "require": "./dist/game-of-life.umd.cjs"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
