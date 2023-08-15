@@ -1,59 +1,66 @@
 import * as game from "../lib";
 import wasm from "../wasm/game_of_life_wasm_bg.wasm?url";
 
-await game.init(wasm);
+App(document.body);
 
-const canvas = document.querySelector<HTMLCanvasElement>("canvas")!;
+export default async function App(root: Node) {
+  await game.init(wasm);
 
-updateCanvasSize.call(canvas);
-window.visualViewport?.addEventListener("resize", updateCanvasSize.bind(canvas));
-canvas.addEventListener("click", toggleCell);
+  const canvas = document.createElement("canvas")!;
+  root.appendChild(canvas);
+  await new Promise(r => requestAnimationFrame(r));
+  updateCanvasSize.call(canvas);
 
-game.canvas(canvas);
+  game.canvas(canvas);
 
-document.body.addEventListener("keypress", onkeypress);
+  canvas.addEventListener("click", toggleCell);
 
-function onkeypress(event: KeyboardEvent) {
-  switch (event.code) {
-    case "Space":
-      game.running() ? game.stop() : game.run();
-      break;
-    case "KeyN":
-      game.update();
-      break;
+  window.visualViewport?.addEventListener("resize", updateCanvasSize.bind(canvas));
+  document.body.addEventListener("keypress", onkeypress);
 
-    case "KeyC":
-      game.seed(false);
-      break;
+  function onkeypress(event: KeyboardEvent) {
+    switch (event.code) {
+      case "Space":
+        game.running() ? game.stop() : game.run();
+        break;
+      case "KeyN":
+        game.update();
+        break;
 
-    case "KeyS":
-      game.seed(true);
-      break;
+      case "KeyC":
+        game.seed(false);
+        break;
 
-    case "KeyR":
-      game.reset();
-      break;
+      case "KeyS":
+        game.seed(true);
+        break;
+
+      case "KeyR":
+        game.reset();
+        break;
+    }
+
+    const num = parseInt(event.key);
+
+    if (Number.isFinite(num) && num !== 0) {
+      game.prob(num / 10);
+    }
   }
 
-  const num = parseInt(event.key);
+  function updateCanvasSize(this: HTMLCanvasElement) {
+    if (this.width != this.clientWidth || this.height != this.clientHeight) {
+      this.width = this.clientWidth;
+      this.height = this.clientHeight;
+    }
+  }
 
-  if (Number.isFinite(num) && num !== 0) {
-    game.prob(num / 10);
+  function toggleCell(this: HTMLCanvasElement, event: MouseEvent | PointerEvent) {
+    if (game.running()) return;
+
+    // get coordinates on canvas element
+    const x = game.index(event.clientX - this.offsetLeft);
+    const y = game.index(event.clientY - this.offsetTop);
+
+    game.toggle(y, x);
   }
 }
-
-function updateCanvasSize(this: HTMLCanvasElement) {
-  if (this.width != this.clientWidth || this.height != this.clientHeight) {
-    this.width = this.clientWidth;
-    this.height = this.clientHeight;
-  }
-}
-
-function toggleCell(this: HTMLCanvasElement, event: MouseEvent | PointerEvent) {
-  // get coordinates on canvas element
-  const x = event.clientX - this.offsetLeft;
-  const y = event.clientY - this.offsetTop;
-
-  game.toggle(game.index(y), game.index(x));
-}
-
