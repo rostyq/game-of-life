@@ -11,7 +11,9 @@ canvas.addEventListener("click", toggleCell);
 
 game.canvas(canvas);
 
-document.body.addEventListener("keypress", (event) => {
+document.body.addEventListener("keypress", onkeypress);
+
+function onkeypress(event: KeyboardEvent) {
   switch (event.code) {
     case "Space":
       game.running() ? game.stop() : game.run();
@@ -38,7 +40,7 @@ document.body.addEventListener("keypress", (event) => {
   if (Number.isFinite(num) && num !== 0) {
     game.prob(num / 10);
   }
-})
+}
 
 function updateCanvasSize(this: HTMLCanvasElement) {
   if (this.width != this.clientWidth || this.height != this.clientHeight) {
