@@ -94,8 +94,10 @@ export function stop() {
 }
 
 export function reset() {
-  _create();
-  _draw();
+  if (cv) {
+    _create();
+    _draw();
+  }
 }
 
 export function seed(value?: bigint | null | boolean): bigint | null {
@@ -167,7 +169,6 @@ function _draw() {
   ctx!.clearRect(0, 0, _width, _height);
   const view = new DataView(memory!.buffer, world!.pointer, world!.size);
 
-  ctx!.beginPath();
   ctx!.fillStyle = _color;
 
   for (let row = 0; row < world!.height; row++) {
@@ -182,8 +183,6 @@ function _draw() {
       }
     }
   }
-
-  ctx!.stroke();
 }
 
 function generateSeed() {

@@ -5,10 +5,10 @@ App(document.body);
 
 export default async function App(root: Node) {
   await game.init(wasm);
+  game.seed(true);
 
   const canvas = document.createElement("canvas")!;
   root.appendChild(canvas);
-  await new Promise(r => requestAnimationFrame(r));
   updateCanvasSize.call(canvas);
 
   game.canvas(canvas);
@@ -18,25 +18,28 @@ export default async function App(root: Node) {
   window.visualViewport?.addEventListener("resize", updateCanvasSize.bind(canvas));
   document.body.addEventListener("keypress", onkeypress);
 
+  game.run();
+
   function onkeypress(event: KeyboardEvent) {
     switch (event.code) {
       case "Space":
         game.running() ? game.stop() : game.run();
         break;
+
       case "KeyN":
         game.update();
         break;
 
-      case "KeyC":
-        game.seed(false);
-        break;
-
-      case "KeyS":
-        game.seed(true);
+      case "KeyB":
+        game.reset();
         break;
 
       case "KeyR":
-        game.reset();
+        game.seed(true);
+        break;
+
+      case "KeyE":
+        game.seed(false);
         break;
     }
 
