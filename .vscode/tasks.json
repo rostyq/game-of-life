@@ -11,7 +11,7 @@
             "label": "wasm-pack: build release",
             "type": "shell",
             "command": "wasm-pack",
-            "args": ["build", "wasm", "--out-dir", "${workspaceFolder}/js/wasm", "--no-pack", "--target", "web", "--release"]
+            "args": ["build", "wasm", "--out-dir", "${workspaceFolder}/js/wasm", "--no-pack", "--target", "web", "--release", "--no-default-features"]
         },
         {
             "label": "wasm-pack: test",
